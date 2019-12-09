@@ -5,6 +5,15 @@ RUN apt-get update \
   && apt-get install -y zlib1g-dev mariadb-client \
   && docker-php-ext-install zip pdo_mysql
 
+#nvm install
+RUN curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
+#nvmインストール完了後.bashrcを反映
+#node install実行
+#npm最新化
+RUN ["/bin/bash", "-c", "source ~/.bashrc &&\
+                        nvm install v12.13.1 &&\
+                        npm install -g npm"]
+
 #Composer install
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
 RUN php -r "if (hash_file('sha384', 'composer-setup.php') === 'a5c698ffe4b8e849a443b120cd5ba38043260d5c4023dbf93e1558871f1f07f58274fc6f4c93bcfd858c6bd0775cd8d1') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
